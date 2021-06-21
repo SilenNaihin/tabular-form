@@ -2,15 +2,44 @@
 @tailwind components;
 @tailwind utilities;
 
-th{
-  background-color: lightgrey;
+.styled-table {
+  margin: 25px 0;
+  font-size: 0.9em;
+  min-width: 400px;
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.15);
 }
 
-td {
-  border: 0.3px solid lightgrey;
-  padding: 5px;
-  text-align: center;
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
 }
+
+.styled-rows {
+    border-bottom: thin solid #dddddd;
+}
+
+.styled-table tr:nth-of-type(even) {
+    background-color: #fafafa;
+}
+
+.styled-table tr:last-of-type {
+    border-bottom: 2px solid #000000;
+}
+
+.styled-table tr:hover {
+    font-weight: bold;
+    color: #000;
+}
+
+.diagonal {
+  width: 150%;
+  height: 200px;
+  background-color: white;
+  -webkit-transform:
+    translateX(-100px)
+    translateY(-50px)
+    rotate(4deg); 
+    }
 
 #slideContainer{
   position: fixed;

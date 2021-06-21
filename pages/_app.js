@@ -1,5 +1,6 @@
 import '../styles/globals.css'
 import "tailwindcss/tailwind.css";
+import Head from "next/head";
 import { useState, useEffect } from "react";
 
 function MyApp({ Component, pageProps }) {
@@ -13,18 +14,23 @@ function MyApp({ Component, pageProps }) {
     return () => clearTimeout(timer);
   }, []);
 
-  return(
+  return (
     <>
-      { slideshow ? (
-            <div id="slideContainer">
-              <div id="firstSlide">My apologies for the poor performance on Friday</div>
-              <div id="secondSlide">{title}</div>
-            </div>
-          ) : (
-          <Component {...pageProps} />
-          )
-      }
+      <Head>
+        <title>Tabular Form</title>
+        <link rel="shortcut icon" href="/favicon.ico" />
+      </Head>
+      {slideshow ? (
+        <div id="slideContainer">
+          <div id="firstSlide">
+            My apologies for the poor performance on Friday
+          </div>
+          <div id="secondSlide">{title}</div>
+        </div>
+      ) : (
+        <Component {...pageProps} />
+      )}
     </>
-  )
+  );
 }
 export default MyApp

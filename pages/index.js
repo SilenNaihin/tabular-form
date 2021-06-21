@@ -2,35 +2,30 @@
 // Given a Component that will render _after_ page load, have that component
 //   * fetch data from an API endpoint "/api/parents", used a random API found online from randomapi.com
 //   * render results in tabular form with columns 
-// uses Next.JS, TailwindCSS, https://www.npmjs.com/package/fireworks, and https://randomuser.me/
+// uses Next.JS, TailwindCSS, react-select,  and https://randomuser.me/ for the API. Built over a Sunday. Mobile friendly. 
 
-import Row from "../components/row";
-import { useState, useEffect } from "react";
-import { Fireworks } from "fireworks/lib/react";
+import Table from "../components/table/table";
+import Header from "../components/header";
+import Hero from "../components/hero";
+import TableOptions from '../components/table/tableOptions'
+
+
+import { useState, useEffect, useRef } from "react";
+import {useWindowSize} from "../utils/utils"
 
 export default function Home() {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
-  const [fireworks,setFireworks] = useState(true);
-
-  let fxProps = {
-    count: 8,
-    interval: 500,
-    colors: ["red", "yellow", "orange", "green", "blue"],
-    bubbleSizeMinimum: 3,
-    bubbleSizeMaximum: 20,
-    particleTimeout: 500,
-    calc: (props, i) => ({
-      ...props,
-      x: window.innerWidth*0.8 * Math.random(),
-      y: 100 + Math.random() * i * 200,
-    }),
-  };
+  const [size,setSize] = useState(0)
+  const [width] = useWindowSize();
+  const [refreshed,setRefreshed] = useState(0);
+  const [refreshTable,setRefreshTable] = useState(0);
+  const tableRef = useRef(null);
 
   useEffect(() => {
     
-    const fetchData = async () => { 
+    const fetchData = async () => {
       await fetch(
         "https://randomapi.com/api/6de6abfedb24f889e0b5f675edc50deb?fmt=raw&sole"
       )
@@ -45,35 +40,59 @@ export default function Home() {
             setError(error);
           }
         );
-        await setTimeout(() => setFireworks(false), 3000);
       }
       fetchData()
       
-  }, []);
+  }, [refreshed]);
+
+  useEffect(() => {
+    setSize(window.innerHeight * 0.95)
+  }, [width])
+
+  function handleRefresh(){
+    setRefreshed(refreshed+1)
+  }
+
+  function handleCreated() {
+    setRefreshTable(refreshTable+1)
+    items.sort((a, b) => +new Date(b.created) - +new Date(a.created))
+  }
+
+  function handleLastname() {
+    setRefreshTable(refreshTable + 1);
+    items.sort((a, b) => (a.last > b.last ? 1 : -1));
+  }
+
+  function handleBalance() {
+    setRefreshTable(refreshTable + 1);
+    items.sort((b, a) => (a.balance.replaceAll(/[$,]/g, "") * 1 > b.balance.replaceAll(/[$,]/g, "") * 1 ? 1 : -1));
+  }
 
   return (
-    <div className="flex justify-center my-10 table-auto">
-      {fireworks ?  (<Fireworks {...fxProps} />) : (<></>)}
-      <table className="w-3/4">
-        <tr>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Email</th>
-          <th>Address</th>
-          <th>Created</th>
-          <th>Balance</th>
-        </tr>
-        {items.map((x) => (
-          <Row
-            first={x.first}
-            last={x.last}
-            email={x.email}
-            address={x.address}
-            created={x.created}
-            balance={x.balance}
-          />
-        ))}
-      </table>
+    <div className="overflow-hidden">
+      <div
+        className="w-full bg-black relative z-20"
+        style={{ height: `${size}px` }}
+      >
+        <Header />
+        <Hero tableRef={tableRef} />
+      </div>
+      <div className="diagonal relative z-30"></div>
+      <div className="md:w-3/4 mx-auto">
+        <div className="text-center text-4xl font-bold -mt-24 relative z-50">
+          Sortable Table
+        </div>
+        <TableOptions
+          width={width}
+          handleRefresh={handleRefresh}
+          items={items}
+          tableRef={tableRef}
+          handleCreated={handleCreated}
+          handleLastname={handleLastname}
+          handleBalance={handleBalance}
+        />
+        <Table items={items} tableRef={tableRef} refreshTable={refreshTable} />
+      </div>
     </div>
   );
 }
