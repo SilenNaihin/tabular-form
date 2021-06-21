@@ -40,7 +40,11 @@ export default function Home() {
   }, [refreshed]);
 
   useEffect(() => {
-    setSize(window.innerHeight * 0.95)
+    if (window.innerHeight < 768){
+      setSize(window.innerHeight * 1.2);
+    } else {
+      setSize(window.innerHeight * 0.85)
+    }
   }, [width])
 
   function handleRefresh(){

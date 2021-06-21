@@ -6,7 +6,7 @@ import Link from 'next/link'
 export default function Header() {
   return (
     <div className="w-screen flex justify-center">
-      <div className="m-3 w-full flex items-center md:w-4/5 xl:w-1/2">
+      <div className="m-3 w-full flex items-center md:w-4/5 xl:w-1/2 ">
         <div className="w-35px md:w-60px ">
           <Image src={logo} layout="responsive" alt="Synthesis logo" />
         </div>

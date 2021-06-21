@@ -6,7 +6,7 @@ export default function Hero({ tableRef }) {
   const [width] = useWindowSize();
 
   return (
-    <div className="w-4/5 mx-auto xl:w-1/2 mt-32 md:mt-20">
+    <div className="w-4/5 mx-auto xl:w-1/2 mt-32 md:mt-20 lg:w-4/5">
       <div className="flex justify-center md:justify-start">
         <div className="relative z-20 md:w-3/4">
           <div className="font-bold text-white text-center text-3xl md:text-left md:text-4xl lg:text-5xl">
