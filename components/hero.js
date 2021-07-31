@@ -10,11 +10,10 @@ export default function Hero({ tableRef }) {
       <div className="flex justify-center md:justify-start">
         <div className="relative z-20 md:w-3/4">
           <div className="font-bold text-white text-center text-3xl md:text-left md:text-4xl lg:text-5xl">
-            Where Silen proves himself
+            Built in 8 hours
           </div>
           <div className="text-white font-thin text-gray-300 mt-3 text-center text-2xl md:text-left md:mt-10">
-            Unhappy with his performance, Silen put forth an effort to reclaim
-            what was lost. Built over a Sunday.
+            As a test, I built this in 8 hours with an existing api endpoint.
           </div>
           <button
             className="p-2 bg-white w-2/5 mx-auto flex justify-center mt-5 md:w-32 md:mx-0 md:mt-10"
